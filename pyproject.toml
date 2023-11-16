@@ -1,0 +1,99 @@
+[project]
+name            = "serial_singleton"
+version         = "0.1.0"
+description     = "A singleton wrapping pyserial's Serial class"
+authors         = [ { name = "Florian Rau", email = "bimac@users.noreply.github.com" } ]
+dependencies    = [ "numpy>=1.26.2", "pyserial>=3.5", "types-pyserial>=3.5.0.10" ]
+requires-python = ">=3.10"
+readme          = "README.md"
+license         = { text = "MIT" }
+
+[project.urls]
+"Documentation" = "https://int-brain-lab.github.io/serial_singleton/"
+"Homepage"      = "https://github.com/int-brain-lab/serial_singleton"
+
+[build-system]
+requires      = [ "pdm-backend" ]
+build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "coverage>=7.3.2",
+    "mypy>=1.7.0",
+    "myst-parser>=2.0.0",
+    "pre-commit>=3.5.0",
+    "pytest-cov>=4.1.0",
+    "pytest>=7.4.3",
+    "ruff>=0.1.5",
+    "sphinx-autobuild>=2021.3.14",
+    "sphinx-autodoc-typehints>=1.25.2",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-rtd-theme>=1.3.0",
+    "sphinx>=7.2.6",
+]
+
+[tool.setuptools.dynamic]
+readme = { file = "README.md" }
+
+[tool.setuptools.package-data]
+"iblbpod"          = [ "py.typed" ]
+"bpod"             = [ "py.typed" ]
+"serial_singleton" = [ "py.typed" ]
+
+[tool.setuptools.packages.find]
+where = [ "src" ]
+
+[tool.ruff]
+exclude = [ ".mypy_cache", "dist", "docs", "venv" ]
+ignore = [
+    "D100",    # Missing docstring in public module
+    "D101",    # Missing docstring in public class
+    "D102",    # Missing docstring in puclic method
+    "D103",    # Missing docstring in public function
+    "D104",    # Missing docstring in public package
+    "D105",    # Missing docstring in magic method
+    "D401",    # First line of docstring should be in imperative mood
+    "PLR2004", # Magic value used in comparison, consider replacing with a constant variable
+]
+indent-width = 4
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+    "B",   # flake8-bugbear
+    "D",   # pydocstyle
+    "E",   # pycodestyle
+    "F",   # Pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "PL",  # pylint
+    "SIM", # flake8-simplify
+    "UP",  # pyupgrade
+]
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.mypy]
+exclude             = "^(?!src).*$"
+files               = "src/**/*.py"
+python_version      = "3.10"
+warn_return_any     = true
+warn_unused_configs = true
+
+[tool.coverage.paths]
+source = [ "src" ]
+
+[tool.coverage.run]
+branch = true
+source = [ "src" ]
+
+[tool.pytest.ini_options]
+addopts              = "-q -ra --cov-report xml --cov=src"
+console_output_style = "count"
+minversion           = "6.0"
+testpaths            = [ "tests/" ]
