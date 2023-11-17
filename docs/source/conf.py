@@ -13,8 +13,7 @@ from importlib.metadata import version
 project = "serial_singleton"
 copyright = "2023, International Brain Laboratory"
 author = "International Brain Laboratory"
-release = version(project)
-version = ".".join(release.split(".")[:3])
+version = version(project)
 sys.path.insert(0, os.path.abspath("../../src/serial_singleton"))
 
 # -- General configuration ---------------------------------------------------
