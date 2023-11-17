@@ -1,5 +1,6 @@
 import ctypes
 import logging
+import re
 import struct
 import threading
 from collections.abc import Sequence
@@ -250,6 +251,23 @@ class SerialSingleton(serial.Serial):
                 return b''.join([SerialSingleton.to_bytes(item) for item in data])
             case _:
                 return to_bytes(data)  # type: ignore[no-any-return]
+
+
+def filter_ports(**kwargs) -> list[str]:
+    for port in list_ports.comports():
+        yield_port = True
+        for key, expected_value in kwargs.items():
+            if not hasattr(port, key):
+                pass
+            elif isinstance(actual_value := getattr(port, key), str) and isinstance(expected_value, str):
+                if bool(re.search(expected_value, actual_value)):
+                    continue
+            elif actual_value == expected_value:
+                continue
+            yield_port = False
+            break
+        if yield_port:
+            yield port.device
 
 
 def get_port_from_serial_number(serial_number: str) -> str | None:
