@@ -3,7 +3,7 @@ import logging
 import re
 import struct
 import threading
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from typing import Any, overload
 
 import numpy as np
@@ -253,13 +253,46 @@ class SerialSingleton(serial.Serial):
                 return to_bytes(data)  # type: ignore[no-any-return]
 
 
-def filter_ports(**kwargs) -> list[str]:
+def filter_ports(**kwargs: dict[str, Any]) -> Iterable[str]:
+    """
+    Filter serial ports based on specified criteria.
+
+    Parameters
+    ----------
+    **kwargs : keyword arguments
+        Filtering criteria for serial ports. Each keyword should correspond
+        to an attribute of the serial port object (ListPortInfo). The values associated
+        with the keywords are used to filter the ports based on various conditions.
+
+    Yields
+    ------
+    str
+        The device name of a filtered serial port that meets all specified criteria.
+
+    Examples
+    --------
+    To filter ports by manufacturer and product:
+
+    >>> for port in filter_ports(manufacturer="Arduino", product="Uno"):
+    ...     print(port)
+
+    Raises
+    ------
+    ValueError
+        If a specified attribute does not exist for a port.
+
+    Notes
+    -----
+    - The function uses regular expressions for string matching when both actual
+      and expected values are strings.
+    """
     for port in list_ports.comports():
         yield_port = True
         for key, expected_value in kwargs.items():
             if not hasattr(port, key):
-                pass
-            elif isinstance(actual_value := getattr(port, key), str) and isinstance(expected_value, str):
+                raise ValueError(f"Attribute '{key}' not found for port {port}")
+            actual_value = getattr(port, key)
+            if isinstance(actual_value, str) and isinstance(expected_value, str):
                 if bool(re.search(expected_value, actual_value)):
                     continue
             elif actual_value == expected_value:
