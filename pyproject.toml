@@ -16,6 +16,9 @@ license         = { text = "MIT" }
 requires      = [ "pdm-backend" ]
 build-backend = "pdm.backend"
 
+[tool.pdm.build]
+includes = [ "src" ]
+
 [tool.pdm.dev-dependencies]
 dev = [
     "coverage>=7.3.2",
