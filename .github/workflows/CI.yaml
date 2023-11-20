@@ -1,4 +1,4 @@
-name: linting
+name: CI
 
 on: [push, pull_request, workflow_dispatch]
 
@@ -6,7 +6,7 @@ permissions:
   contents: write
 
 jobs:
-  CI:
+  linting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,3 +21,22 @@ jobs:
         run: pdm run ruff format --check .
       - name: Mypy
         run: pdm run mypy
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pdm-project/setup-pdm@v3
+        with:
+          cache: true
+      - name: Install dependencies
+        run: pdm install --group doc
+      - name: Sphinx build
+        run: pdm run sphinx-build docs/source _build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _build/
+          force_orphan: true
