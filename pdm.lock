@@ -2,10 +2,10 @@
 # It is not intended for manual editing.
 
 [metadata]
-groups = ["default", "dev"]
+groups = ["default", "dev", "doc"]
 strategy = ["cross_platform"]
 lock_version = "4.4"
-content_hash = "sha256:ba9e72a1bd4a250b7980d1c326f298debc0e924d6743560c24c180e24b04832b"
+content_hash = "sha256:8c28b7bcc3acefe6b1a1b73d9c09abaf9dd5cc5603fa5d38d36a78944f2d3ab9"
 
 [[package]]
 name = "alabaster"
