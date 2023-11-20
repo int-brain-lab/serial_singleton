@@ -1,0 +1,23 @@
+name: linting
+
+on: [push, pull_request, workflow_dispatch]
+
+permissions:
+  contents: write
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pdm-project/setup-pdm@v3
+        with:
+          cache: true
+      - name: Install dependencies
+        run: pdm install --group test
+      - name: Ruff linter
+        run: pdm run ruff check .
+      - name: Ruff formatter
+        run: pdm run ruff format --check .
+      - name: Mypy
+        run: pdm run mypy

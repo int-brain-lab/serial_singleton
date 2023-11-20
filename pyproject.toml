@@ -20,7 +20,7 @@ build-backend = "pdm.backend"
 includes = [ "src" ]
 
 [tool.pdm.dev-dependencies]
-dev = [
+test = [
     "coverage>=7.3.2",
     "mypy>=1.7.0",
     "pre-commit>=3.5.0",
