@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: pdm install
       - name: Tox
-        run: pdm run tox -p
+        run: pdm run tox
       - name: Coveralls
         uses: coverallsapp/github-action@v2
         with:
