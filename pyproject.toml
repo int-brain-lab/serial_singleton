@@ -109,7 +109,7 @@ legacy_tox_ini = """
     deps =
         pytest
         pytest-cov
-    commands = pytest --cov=serial_singleton --cov-append tests
+    commands = pytest --cov=serial_singleton --cov-report xml --cov-append tests
 
     [testenv:clean]
     deps =
