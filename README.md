@@ -3,6 +3,7 @@
 [![pdm-managed](https://img.shields.io/badge/pdm-managed-blueviolet)](https://pdm-project.org)
 [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Coverage Status](https://coveralls.io/repos/github/int-brain-lab/serial_singleton/badge.svg?branch=main)](https://coveralls.io/github/int-brain-lab/serial_singleton?branch=main)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Actions status](https://github.com/int-brain-lab/serial_singleton/workflows/CI/badge.svg)](https://github.com/int-brain-lab/serial_singleton/actions)
 
