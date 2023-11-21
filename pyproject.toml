@@ -27,6 +27,8 @@ test = [
     "pytest-cov>=4.1.0",
     "pytest>=7.4.3",
     "ruff>=0.1.5",
+    "tox-pdm>=0.7.0",
+    "tox>=4.11.3",
 ]
 doc = [
     "myst-parser>=2.0.0",
@@ -98,7 +100,24 @@ branch = true
 source = [ "src" ]
 
 [tool.pytest.ini_options]
-addopts              = "-q -ra --cov-report xml --cov=src"
+addopts              = "-q -ra --cov-report xml --cov=serial_singleton"
 console_output_style = "count"
 minversion           = "6.0"
 testpaths            = [ "tests/" ]
+
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    min_version = 4.0
+    env_list = py310, py311, py312
+
+    [testenv]
+    groups =
+        test
+    deps = pytest
+    commands = pytest tests
+
+    [testenv:type]
+    deps = mypy
+    commands = mypy src
+"""

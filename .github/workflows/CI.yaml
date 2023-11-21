@@ -21,6 +21,17 @@ jobs:
         run: pdm run ruff format --check .
       - name: Mypy
         run: pdm run mypy
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pdm-project/setup-pdm@v3
+        with:
+          cache: true
+      - name: Install dependencies
+        run: pdm install --group test
+      - name: Tox
+        run: pdm run tox -p
   docs:
     runs-on: ubuntu-latest
     steps:
