@@ -51,35 +51,32 @@ class SerialSingleton(serial.Serial):
             return instance
 
     def __init__(self, port: str | None = None, connect: bool = True, **kwargs) -> None:
-        if self._initialized:
-            return
-
-        super().__init__(**kwargs)
-
-        serial.Serial.port.fset(self, port)  # type: ignore[attr-defined]
-        if port is not None and connect is True:
+        if not self._initialized:
+            super().__init__(**kwargs)
+            serial.Serial.port.fset(self, port)  # type: ignore[attr-defined]
+            self.port_info = next(
+                (p for p in list_ports.comports() if p.device == self.port), None
+            )
+            self._initialized = True
+        if not getattr(self, 'is_open', False) and connect is True:
             self.open()
-
-        self.port_info = next(
-            (p for p in list_ports.comports() if p.device == self.port), None
-        )
-
-        self._initialized = True
 
     def __del__(self) -> None:
         self.close()
         with self._lock:
-            if self.port in SerialSingleton._instances:
+            if hasattr(self, 'port') and self.port in SerialSingleton._instances:
                 logger.debug(f'Deleting {type(self).__name__} instance on {self.port}')
                 SerialSingleton._instances.pop(self.port)
 
     def open(self) -> None:
-        super().open()
-        logger.debug(f'Serial connection to {self.port} opened')
+        if self.port is not None:
+            super().open()
+            logger.debug(f'Serial connection to {self.port} opened')
 
     def close(self) -> None:
-        super().close()
-        logger.debug(f'Serial connection to {self.port} closed')
+        if getattr(self, 'is_open', False):
+            super().close()
+            logger.debug(f'Serial connection to {self.port} closed')
 
     @property
     def port(self) -> str | None:
