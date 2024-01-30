@@ -1,6 +1,6 @@
 [project]
 name            = "serial_singleton"
-version         = "0.1.0"
+version         = "0.1.1"
 description     = "A singleton wrapping pyserial's Serial class"
 authors         = [ { name = "Florian Rau", email = "bimac@users.noreply.github.com" } ]
 dependencies    = [ "numpy>=1.26.2", "pyserial>=3.5", "types-pyserial>=3.5.0.10" ]
